@@ -2,14 +2,29 @@ import * as cdk from 'aws-cdk-lib';
 import { Stack, StackProps } from 'aws-cdk-lib';
 import { CodePipeline, CodePipelineSource, ManualApprovalStep, ShellStep } from 'aws-cdk-lib/pipelines';
 import { PipelineStage } from './stages';
-
+import { LinuxBuildImage } from 'aws-cdk-lib/aws-codebuild';
+import * as ecr from 'aws-cdk-lib/aws-ecr';
 export class InfraStack extends Stack {
   constructor(scope: cdk.App, id: string, props?: StackProps) {
     super(scope, id, props);
 
+    const ecrRepository = ecr.Repository.fromRepositoryName(this, 'java-data-server-ecr', 'java-21-image-build-ecr');
+
     // Define the pipeline
     const pipeline = new CodePipeline(this, 'java-data-server-pipeline', {
       pipelineName: 'java-data-server-pipeline',
+      assetPublishingCodeBuildDefaults: {
+        buildEnvironment: {
+          buildImage: LinuxBuildImage.fromCodeBuildImageId("aws/codebuild/standard:5.0"),
+          privileged: true,
+        },
+      },
+      codeBuildDefaults: {
+        buildEnvironment: {
+          buildImage: LinuxBuildImage.fromEcrRepository(ecrRepository, 'latest'),
+          privileged: true,
+        },
+      },
       synth: new ShellStep('Synth', {
         input: CodePipelineSource.gitHub('niomwungeri-fabrice/java-data-server', 'main'),
         commands: [
