@@ -38,6 +38,7 @@ export class InfraStack extends Stack {
           CDK_DEFAULT_ACCOUNT: process.env.CDK_DEFAULT_ACCOUNT || '<your-aws-account-id>',
           CDK_DEFAULT_REGION: process.env.CDK_DEFAULT_REGION || '<your-aws-region>',
         },
+        primaryOutputDirectory: 'cdk.out',
       }),
     });
 
