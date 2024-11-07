@@ -5,7 +5,7 @@
     "infra": "bin/infra.js"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "npx tsc && java -version && mvn -version && npx tsc && mvn clean -f ../code/pom.xml package",
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk"

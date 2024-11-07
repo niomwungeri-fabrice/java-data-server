@@ -12,8 +12,13 @@ export class InfraStack extends Stack {
       pipelineName: 'java-data-server-pipeline',
       synth: new ShellStep('Synth', {
         input: CodePipelineSource.gitHub('niomwungeri-fabrice/java-data-server', 'main'),
-        installCommands: ['npm install -g aws-cdk'],
-        commands: ['npm install', 'npx cdk synth'],
+        commands: [
+          "cd infra",
+          'npm i',
+          'npm ci',
+          `npm run build`,
+          `npx cdk synth`,
+        ],
         env: {
           CDK_DEFAULT_ACCOUNT: process.env.CDK_DEFAULT_ACCOUNT || '<your-aws-account-id>',
           CDK_DEFAULT_REGION: process.env.CDK_DEFAULT_REGION || '<your-aws-region>',
