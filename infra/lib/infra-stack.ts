@@ -13,6 +13,7 @@ export class InfraStack extends Stack {
     // Define the pipeline
     const pipeline = new CodePipeline(this, 'java-data-server-pipeline', {
       pipelineName: 'java-data-server-pipeline',
+      dockerEnabledForSelfMutation: true,
       assetPublishingCodeBuildDefaults: {
         buildEnvironment: {
           buildImage: LinuxBuildImage.fromCodeBuildImageId("aws/codebuild/standard:5.0"),
