@@ -44,13 +44,13 @@ export class InfraStack extends Stack {
     });
 
     const testingStage = pipeline.addStage(new PipelineStage(this, "uat", {
-      env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: process.env.CDK_DEFAULT_REGION },
+      env: { account: '354918376149', region: 'ca-central-1' },
     }))
 
     testingStage.addPost(new ManualApprovalStep("Manual approval before production"))
 
     const productionStage = pipeline.addStage(new PipelineStage(this, "prod", {
-      env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: process.env.CDK_DEFAULT_REGION },
+      env: { account: '354918376149', region: 'ca-central-1' },
     }))
   }
 }
